@@ -133,5 +133,3 @@ alias c='clear'
 alias h='history'
 alias update_discord='cd ~/Downloads && wget -O discordFile.deb "https://discord.com/api/download?platform=linux&format=deb"&& sudo apt install ~/Downloads/discordFile.deb  && sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)" && sudo rm ~/Downloads/discordFile.deb'
 alias vencord='sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"'
-alias noip='noip-duc --daemonize --daemon-pid-file ~/daemon-pid -g all.ddnskey.com --username a3q582g --password FNH4STbQkeec'
-

@@ -35,9 +35,9 @@ autoinstall:
     id: ubuntu-desktop-minimal
     search_drivers: true
   identity:
-    username: cheuzard
-    password: '$6$ldgAja4.ROwD6SBi$/GYco23dZD4q34jjGJAdhxWFNqVly2TaTc8EKDstVKtUiQc79ZHdw2lQVuzyvPYG.yQaVNiWD55e6n6iZPXN/0'
-    hostname: cheugros
+    username: <usrnm>
+    password: '<passwd>'
+    hostname: <hstnm>
 
   packages:
     - curl
@@ -59,7 +59,7 @@ autoinstall:
     - fzf
     - zsh-syntax-highlighting
     - ddcutil
-    - dconf-editor    
+    - dconf-editor
 
   storage:
     config:
@@ -68,7 +68,7 @@ autoinstall:
         ptable: gpt
         path: /dev/nvme0n1
         wipe: superblock-recursive
-      
+
       - id: efipart
         type: partition
         device: disk0
@@ -103,16 +103,16 @@ autoinstall:
         name: root_lv
         volgroup: vg0
         size: -1
-      
+
       - id: efipart_fs
         type: format
         volume: efipart
         fstype: fat32
-        
+
       - id: bootpart_fs
         type: format
         volume: bootpart
-        fstype: ext4     
+        fstype: ext4
 
       - id: root_lv_fs
         type: format
