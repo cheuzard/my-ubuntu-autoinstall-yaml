@@ -1,0 +1,144 @@
+#cloud-config
+autoinstall:
+  version: 1
+  apt:
+    disable_components: []
+    fallback: offline-install
+    geoip: true
+    mirror-selection:
+      primary:
+      - country-mirror
+      - arches: &id001
+        - amd64
+        - i386
+        uri: http://archive.ubuntu.com/ubuntu/
+      - arches: &id002
+        - s390x
+        - arm64
+        - armhf
+        - powerpc
+        - ppc64el
+        - riscv64
+        uri: http://ports.ubuntu.com/ubuntu-ports
+    preserve_sources_list: false
+    security:
+    - arches: *id001
+      uri: http://security.ubuntu.com/ubuntu/
+    - arches: *id002
+      uri: http://ports.ubuntu.com/ubuntu-ports
+  timezone: Africa/Algiers
+  codecs:
+    install: true
+  drivers:
+    install: true
+  source:
+    id: ubuntu-desktop-minimal
+    search_drivers: true
+  identity:
+    username: cheuzard
+    password: '$6$ldgAja4.ROwD6SBi$/GYco23dZD4q34jjGJAdhxWFNqVly2TaTc8EKDstVKtUiQc79ZHdw2lQVuzyvPYG.yQaVNiWD55e6n6iZPXN/0'
+    hostname: cheugros
+
+  packages:
+    - curl
+    - flatpak
+    - git
+    - gnome-shell-extensions
+    - gnome-tweaks
+    - zsh
+    - python3
+    - python3-pip
+    - libreoffice
+    - gparted
+    - neofetch
+    - htop
+    - lutris
+    - wine
+    - winetricks
+    - timeshift
+    - fzf
+    - zsh-syntax-highlighting
+    - ddcutil
+    - dconf-editor    
+
+  storage:
+    config:
+      - id: disk0
+        type: disk
+        ptable: gpt
+        path: /dev/nvme0n1
+        wipe: superblock-recursive
+      
+      - id: efipart
+        type: partition
+        device: disk0
+        offset: 1048576
+        size: 1G
+        flag: boot, esp
+        grub_device: true
+
+      - id: bootpart
+        type: partition
+        device: disk0
+        size: 2G
+
+      - id: reserve
+        type: partition
+        device: disk0
+        size: 40G
+
+      - id: pvpart
+        type: partition
+        device: disk0
+        size: -1
+
+      - id: vg0
+        type: lvm_volgroup
+        name: vg0
+        devices:
+          - pvpart
+
+      - id: root_lv
+        type: lvm_partition
+        name: root_lv
+        volgroup: vg0
+        size: -1
+      
+      - id: efipart_fs
+        type: format
+        volume: efipart
+        fstype: fat32
+        
+      - id: bootpart_fs
+        type: format
+        volume: bootpart
+        fstype: ext4     
+
+      - id: root_lv_fs
+        type: format
+        volume: root_lv
+        fstype: ext4
+
+      - id: efipart_mount
+        type: mount
+        device: efipart_fs
+        path: /boot/efi
+
+      - id: bootpart_mount
+        type: mount
+        device: bootpart_fs
+        path: /boot
+
+      - id: root_lv_mount
+        type: mount
+        device: root_lv_fs
+        path: /
+
+  late-commands:
+    - apt update
+    - apt install -f -y
+    - curtin in-target -- wget -P /etc/skel/ http://192.168.1.40:8000/post-install.sh
+    - curtin in-target -- chmod +x /etc/skel/post-install.sh
+    - curtin in-target -- wget -P /etc/skel/ http://192.168.1.40:8000/.zshrc
+    - curtin in-target -- wget -P /etc/skel/ http://192.168.1.40:8000/.zsh_history
+    - curtin in-target -- wget -P /etc/skel/.config http://192.168.1.40:8000/starship.toml

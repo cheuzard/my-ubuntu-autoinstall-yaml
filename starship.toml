@@ -1,0 +1,78 @@
+# Use the color palette
+palette = "dracula"
+
+format = """
+[┌─────>](blue)\
+[]( fg:#7DF9AA)[ ](bg:#7DF9AA fg:#090c0c)\
+[](fg:#7DF9AA bg:#1C3A5E)\
+$time[](fg:#1C3A5E bg:#3B76F0)$directory[](fg:#3B76F0 bg:#FCF392)$git_branch[ ](fg:#FCF392)\
+$sudo$golang$java$c$python$package\
+$git_status
+[└─>](blue)$character
+"""
+[sudo]
+format = '[as $symbol]($style)'
+disabled = false
+
+[directory]
+format = "[  $path ]($style)"
+style = "fg:#E4E4E4 bg:#3B76F0"
+
+[git_branch]
+format = '[ $symbol$branch(:$remote_branch) ]($style)'
+symbol = "  "
+style = "fg:#1C3A5E bg:#FCF392"
+
+[git_status]
+format = "(\n[│](blue)[      ](fg:#7DF9AA)[󰊢 ](bg:#7DF9AA fg:#090c0c)[](fg:#7DF9AA bg:#FCF392)[ $all_status$ahead_behind]($style)[](fg:#FCF392))"
+conflicted = '⚔️ conflict '
+stashed = '📥 stash '
+deleted = '🗑️ del '
+renamed = ''
+modified = '📝 modif '
+typechanged = ''
+staged = '🔏 staged '
+untracked = '⛓️ untracked '
+diverged = ' diverged '
+ahead = ' ⬆️ ahead '
+behind = ' ⬇️ behind '
+up_to_date = ' 💯 UTD '
+style = "fg:#1C3A5E bg:#FCF392"
+
+[hg_branch]
+format = "[ $symbol$branch ]($style)"
+symbol = " "
+
+[cmd_duration]
+format = "[ $duration ]($style)"
+style = "fg:bright-white bg:18"
+
+[character]
+success_symbol = '[ ➜](bold green) '
+error_symbol = '[ ✗](#E84D44) '
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:#1d2230"
+format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
+
+
+[package]
+disabled = true
+format = "[$symbol$version]($style) "
+display_private = true
+
+# Define Dracula color palette
+[palettes.dracula]
+background = "#282a36"
+current_line = "#44475a"
+foreground = "#f8f8f2"
+comment = "#6272a4"
+cyan = "#8be9fd"
+green = "#50fa7b"
+orange = "#ffb86c"
+pink = "#ff79c6"
+purple = "#bd93f9"
+red = "#ff5555"
+yellow = "#f1fa8c"
